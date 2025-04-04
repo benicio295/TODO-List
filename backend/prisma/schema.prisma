@@ -1,3 +1,12 @@
+model Account {
+  id          String   @id @default(dbgenerated("gen_random_uuid()"))
+  name        String
+  email       String   @unique
+  password    String
+  avatarImage String?
+  createdAt   DateTime @default(now())
+}
+
 generator client {
   provider = "prisma-client-js"
 }
