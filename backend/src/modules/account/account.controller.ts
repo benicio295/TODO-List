@@ -1,5 +1,5 @@
 import { Body, Controller, HttpException, HttpStatus, Post, UsePipes } from '@nestjs/common';
-import { ZodValidationPipe } from 'src/pipes/zod/zod-validation.pipe';
+import { ZodValidationPipe } from '../../pipes/zod/zod-validation.pipe';
 import { AccountService } from './account.service';
 import { CreateAccountDTO, createAccountDTO } from './dtos/account.dto';
 
