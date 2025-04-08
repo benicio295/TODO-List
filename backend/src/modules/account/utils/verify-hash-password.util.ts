@@ -1,5 +1,5 @@
 import { scrypt } from 'crypto';
-import { AppError, TypeErrors } from 'src/app.exception';
+import { AppError, TypeErrors } from '../../../app.exception';
 
 export function verifyHashPassword(password: string, hashedPassword: string): Promise<boolean> {
 	return new Promise((resolve, reject) => {

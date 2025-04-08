@@ -1,5 +1,5 @@
 import { randomBytes, scrypt } from 'crypto';
-import { AppError, TypeErrors } from 'src/app.exception';
+import { AppError, TypeErrors } from '../../../app.exception';
 
 export function hashPassword(password: string): Promise<string> {
 	return new Promise((resolve, reject) => {
