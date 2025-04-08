@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { AppError, TypeErrors } from 'src/app.exception';
-import { PrismaService } from 'src/modules/prisma/prisma.service';
+import { AppError, TypeErrors } from '../../../app.exception';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateAccountDTO } from '../dtos/account.dto';
 import { IAccountRepository } from './account.repository.interface';
 
