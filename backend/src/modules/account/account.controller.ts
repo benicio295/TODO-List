@@ -1,7 +1,23 @@
-import { Body, Controller, HttpException, HttpStatus, Post, UsePipes } from '@nestjs/common';
+import {
+	Body,
+	ConflictException,
+	Controller,
+	HttpStatus,
+	InternalServerErrorException,
+	Post,
+	UsePipes
+} from '@nestjs/common';
+import {
+	ApiBadRequestResponse,
+	ApiBody,
+	ApiConflictResponse,
+	ApiCreatedResponse,
+	ApiInternalServerErrorResponse,
+	ApiOperation
+} from '@nestjs/swagger';
 import { ZodValidationPipe } from '../../pipes/zod/zod-validation.pipe';
 import { AccountService } from './account.service';
-import { CreateAccountDTO, createAccountDTO } from './dtos/account.dto';
+import { CreateAccountDTO, createAccountDTO, CreateAccountDTOSwagger } from './dtos/account.dto';
 
 @Controller('account')
 export class AccountController {
@@ -10,17 +26,23 @@ export class AccountController {
 
 	@Post('create')
 	@UsePipes(new ZodValidationPipe(createAccountDTO))
+	@ApiOperation({ summary: 'Create a new account' })
+	@ApiBody({ type: CreateAccountDTOSwagger })
+	@ApiBadRequestResponse({ description: 'Bad Request' })
+	@ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+	@ApiCreatedResponse({ description: 'Account Created' })
+	@ApiConflictResponse({ description: 'Account already exists' })
 	async createUser(@Body() account: CreateAccountDTO) {
 		let hasError = false;
 
 		try {
 			hasError = await this._accountService.createAccount(account);
 		} catch {
-			throw new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new InternalServerErrorException('Internal Server Error');
 		}
 
 		if (!hasError) {
 			return { message: 'Account Created', statusCode: HttpStatus.CREATED };
-		} else throw new HttpException('Account already exists', HttpStatus.CONFLICT);
+		} else throw new ConflictException('Account already exists');
 	}
 }
