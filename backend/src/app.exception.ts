@@ -7,8 +7,13 @@ export class AppError extends Error {
 	constructor(
 		message: string,
 		cause: unknown,
-		public typeError: TypeErrors
+		private _typeError: TypeErrors
 	) {
 		super(message, { cause });
+		this.stack = this.stack?.replace('Error:', `Error [${this._typeError}]:`);
+	}
+
+	toString() {
+		return `[${this._typeError}] - ${this.message}`;
 	}
 }
